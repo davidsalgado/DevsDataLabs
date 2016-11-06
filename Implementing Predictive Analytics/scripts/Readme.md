@@ -17,9 +17,9 @@ MSSQL extension for VS Code
 This lab assumes you have setup SQL Server 2016 Developer Edition locally on your workstation or a remote instance.
 
 Required SQL Server Configuration
-•	Make sure that your installation of SQL Server includes R Services.
-•	Using SQL Server Configuration Manager, make sure that TCP/IP connections are enabled to your instance of SQL Server. 
-•	Be sure that the SQL Server, SQL Server Launchpad and SQL Server Browser services are all running.
+*	Make sure that your installation of SQL Server includes R Services.
+*	Using SQL Server Configuration Manager, make sure that TCP/IP connections are enabled to your instance of SQL Server. 
+*	Be sure that the SQL Server, SQL Server Launchpad and SQL Server Browser services are all running.
  
 
 
@@ -28,24 +28,24 @@ Download the Project
 Download the sample application and setup scripts from:
 http://bit.ly/2exRcSV 
   
-###Setup the sample database
+### Setup the sample database
 
 The following steps will get your taxidata database setup and loaded with data.
-1.	Using the SQL tool of your choice (SQL Server Management Studio, Visual Studio Code with the MSSQL extension), connect to your database and execute the following scripts (provided with the project files) to create the database, a table to hold the taxi data, and load the 1.7M records into the taxi trip data table. 
-a.	CreateDatabase.sql 
-b.	Create nyctaxi_features Table.sql 
-c.	Load nyctaxi_features using BCP.sql 
+1. Using the SQL tool of your choice (SQL Server Management Studio, Visual Studio Code with the MSSQL extension), connect to your database and execute the following scripts (provided with the project files) to create the database, a table to hold the taxi data, and load the 1.7M records into the taxi trip data table. 
+    - *CreateDatabase.sql* 
+    - *Create nyctaxi_features Table.sql* 
+    - *Load nyctaxi_features using BCP.sql* 
 2.	Next, create a table valued function that will package inputs received by the stored procedure into a tabular format by executing the following script. You will use this function later within the stored procedure that makes predictions.
-a.	Create Function fnEngineerFeatures.sql 
+    - *Create Function fnEngineerFeatures.sql* 
 3.	Execute the following script to create a table that will persist the predictive model you will generate. Observe that this table has a schema that consists of one column of type varbinary(max). This column will hold the serialized representation of your model.
-a.	Create nyc_taxi_models Table.sql 
+    - *Create nyc_taxi_models Table.sql* 
 
-###Train the Model
+### Train the Model
 To train your model, you will create a stored procedure that you can run at any time to train your model and store its serialized form in the nyctaxi_features table. 
-1.	Execute the following script to define the stored procedure: 
-a.	Create Procedure TrainTipPredictionModel.sql 
+1. Execute the following script to define the stored procedure: 
+    - *Create Procedure TrainTipPredictionModel.sql* 
 2.	Execute the following script to train the model and store it. 
-a.	Exec TrainTipPredictionModel.sql 
+    - *Exec TrainTipPredictionModel.sql* 
 
 Let’s take a closer look at the contents of the stored procedure.
 
@@ -89,10 +89,10 @@ The procedure begins by defining a query that retrieves a sample of the data con
 This query is passed as one of the parameters to sp_execute_external_script, via the @input_data_1 parameter. 
 
 Next, a call to sp_execute_external_script is constructed. The return value of this stored procedure call is the serialized model, which is saved into the nyc_taxi_models table.  The inputs to sp_execute_external_script are:
-•	@language: needs to indicate that the script is written in the R language.
-•	@script: this is the actual R script that uses the rxLogit function to train a model.
-•	@input_data_1: by convention represent the query that is accessible via InputDataSet within the R script.
-•	@output_data_1_name: provides the column name used in the result set containing the serialized model.
+*	__@language__: needs to indicate that the script is written in the R language.
+*	__@script__: this is the actual R script that uses the rxLogit function to train a model.
+*	__@input_data_1__: by convention represent the query that is accessible via InputDataSet within the R script.
+*	__@output_data_1_name__: provides the column name used in the result set containing the serialized model.
 
 Looking at the R script specifically, we have:
 
@@ -100,7 +100,7 @@ Looking at the R script specifically, we have:
 >logitObj <- rxLogit(tipped ~ passenger_count + trip_distance + trip_time_in_secs + 
 >                    direct_distance, data = InputDataSet)  
 
-###Serialize model and put it in data frame  
+### Serialize model and put it in data frame  
 >trained_model <- data.frame(model=as.raw(serialize(logitObj, NULL)));  
 
 The second line trains the model using the rxLogit method, which performs a logistic regression. Observe that the inputs are expressed in a formula syntax that describes what feature to predict and what features to use in its prediction:
@@ -111,10 +111,10 @@ The formula reads as such:  predict “tipped” given the “passenger_count”
 
 After that, we serialize the model into a data.frame and store it in the trained_model variable, which is returned as an output result set consisting of one cell with the column name “trained_model” and value of the serialized model. 
 
-Operationalize the Model 
+### Operationalize the Model 
 With trained model in hand, you are ready operationalize the model and make it available to your application. 
 1.	Execute the following script to operationalize the model in a stored procedure. 
-a.	Create Procedure PredictTip.sql 
+    - *Create Procedure PredictTip.sql* 
 
 Let’s take a closer look at this stored procedure.
 
@@ -143,7 +143,7 @@ Let’s take a closer look at this stored procedure.
 >		@language = N'R',
 >       @script = N'
 >		        	mod <- unserialize(as.raw(model));
->       			OutputDataSet<-rxPredict(modelObject = mod, data = InputDataSet, 
+>                   OutputDataSet<-rxPredict(modelObject = mod, data = InputDataSet, 
 >						    outData = NULL, 
 >						    predVarNames = "Score", type = "response", 
 >                                            writeModelVars = FALSE, overwrite = TRUE);
@@ -209,12 +209,12 @@ Following that we invoke the prediction using a call to sp_execute_external_scri
 >
 
 Observe that we pass as input the following parameters:
-•	@language: needs to indicate that the script is written in the R language.
-•	@script: this is the actual R script that uses the rxPredict function to make the prediction.
-•	@input_data_1: the query which contains the one row of data against which we make a prediction.
-•	@params: defines the parameters and SQL types of all the parameters used.
-•	@model: the serialized model.
-•	@passenger_count, @trip_distance, @trip_time_in_secs, @direct_distance: the values that will be packaged into a table after executing the query defined by @inquery.
+* @language: needs to indicate that the script is written in the R language.
+* @script: this is the actual R script that uses the rxPredict function to make the prediction.
+* @input_data_1: the query which contains the one row of data against which we make a prediction.
+* @params: defines the parameters and SQL types of all the parameters used.
+* @model: the serialized model.
+* @passenger_count, @trip_distance, @trip_time_in_secs, @direct_distance: the values that will be packaged into a table after executing the query defined by @inquery.
 
 The R script used for prediction has only the following two lines:
 >
@@ -234,15 +234,15 @@ Finally, the script ends using the following line:
 
 This schematizes the result set returned in OutputDataSet within the R script. This data set has one column, labeled Score with a type of float. The label of “Score” was configured in the call to rxPredict via the predVarNames parameter. 
 
-###Execute a prediction in T-SQL
+### Execute a prediction in T-SQL
 Now you are ready to give your predictive stored procedure a test run.
 1.	Run the following script to predict the probability of a tip using the PredictTip stored procedure.
-a.	Exec PredictTip.sql 
+    - *Exec PredictTip.sql* 
 2.	You should get a result set consisting of one row and one column (labeled Score), for example:
  
 
 
-###Execute the sample in Node.js
+### Execute the sample in Node.js
 Now let’s integrate a call to this stored procedure from our node.js sample application.
 1.	Within the root of the project directory, at the command line execute: 
 npm install tedious 
@@ -250,7 +250,7 @@ npm install tedious
 3.	Open TipPredictor.js in Visual Studio Code.
 4.	Near the top, modify the values of the config element so that they contain the appropriate values to connect to your instance of the taxidata database.
 
->// Provide the connection details appropriate to your environment
+Provide the connection details appropriate to your environment (Change the user/pass and instanceName to match your environment)
 >var config = {
 >userName: 'zoinertejada',
 >password: 'Abc!1234',
@@ -316,12 +316,14 @@ npm install tedious
 10.	Open an instance of the command line and navigate to the directory containing TipPredictor.js.
 11.	Run the sample application by typing:
 node TipPredictor.js 
+
 12.	You should see output like the following (which in this case means there is a 53% chance of a tip):
 >node TipPredictor.js
 >Connected.
 >Score = 0.5333974344542649
 >3 rows
 
-### Closing
-Congratulations, you’ve just trained and operationalized a model using SQL Server 2016 and enabled a node.js application with predictive analytics capabilities.
+### Congratulations!!!
+You’ve just trained and operationalized a model using SQL Server 2016 and enabled a node.js application with predictive analytics capabilities.
 
+### Additional resources
