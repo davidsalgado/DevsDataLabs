@@ -36,4 +36,4 @@ RTVS also provides full support for **viewing R plots within Visual Studio** usi
 Finally, RTVS includes features you would expect from Visual Studio when developing in other languages. You can manage the dependencies of your R scripts by using the R Package Manager (in the same way you might manage NuGet packages).  You can also interact with Git and GitHub for maintaining your R project and its related assets in source control.
 
 ## Done with the intro?
-[Start the lab!](Labandscripts/Lab.md)
+[Start the lab!](LabandScripts/Lab.md)
