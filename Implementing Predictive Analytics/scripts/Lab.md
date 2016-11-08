@@ -6,9 +6,9 @@ In this lab, you will implement predictive analytics to predict the likelihood a
 
 Requirements
 -----------------
-- SQL Server 2016 Developer Edition or higher
-- Visual Studio Code
-- Node.js 
+* [SQL Server 2016 Developer Edition](https://www.microsoft.com/en-us/sql-server/sql-server-editions-developers) or higher
+* [Visual Studio Code](http://code.visualstudio.com)
+* Node.js 
 
 A tool to run SQL scripts against your SQL Server database, such as either of the following:
 SQL Server Management Studio 
