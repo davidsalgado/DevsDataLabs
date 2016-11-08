@@ -48,4 +48,4 @@ The Microsoft Data Platform also provide multiple ways of adding predictive anal
 While each approach has its merits, in the accompanying lab, we’ll examine how to augment a node.js application with predictive analytics using this last approach that invokes a predictive stored procedure running in SQL Server 2016. 
 
 **Done with the intro?**
-[Start the lab](scripts/readme.md)
+[Start the lab](scripts/Lab.md)
