@@ -5,16 +5,17 @@ Predictive analytics are a powerful way to add intelligence to your application,
 
 What is predictive analytics? 
 -------------------------------
-Before we get into the implementation, let’s address a fundamental question—what is predictive analytics? At their core, predictive tasks are those that predict one value given a set of other values as input. In other words, predictive tasks learn (or are taught) how to make predictions. This learning is captured in a model by an algorithm. Think of the model as the way the learnings are compactly summarized. When you want to make a prediction, you invoke a prediction operation and provide the model as one of the inputs, along with the input values against which you want to form a prediction. Predictive analytics is the act of applying prediction (and your model) to your data to gain new insights. 
+Before we get into the implementation, let’s address a fundamental question—**what is predictive analytics?** At their core, predictive tasks are those that predict one value given a set of other values as input. In other words, predictive tasks learn (or are taught) how to make predictions. This learning is captured in a model by an algorithm. Think of the model as the way the learnings are compactly summarized. When you want to make a prediction, you invoke a prediction operation and provide the model as one of the inputs, along with the input values against which you want to form a prediction. Predictive analytics is the act of applying prediction (and your model) to your data to gain new insights. 
 
-So, what are some examples of predictive analytics? These fall out into two basic categories. You have prediction that aims to predict the class (or category) of something. For example, you can have single class classification that tries to predict if an email is spam or not spam—so the class is either “spam” or “not spam”. You can also have multi-class classification, that predicts an outcome from a set of possible outcomes. For example, you can have a multi-class classification that predicts if a consumer is at “high risk”, “moderate risk”, or “low risk” of default on a loan.  
+So, **what are some examples of predictive analytics?** These fall out into two basic categories. You have _prediction that aims to predict the class (or category) of something_. For example, you can have single class classification that tries to predict if an email is spam or not spam—so the class is either “spam” or “not spam”. You can also have multi-class classification, that predicts an outcome from a set of possible outcomes. For example, you can have a multi-class classification that predicts if a consumer is at “high risk”, “moderate risk”, or “low risk” of default on a loan.  
 
-You also have numeric prediction. Instead of trying to predict a class from a fixed set of options, numeric prediction tries to predict a numeric value from a continuous range of numbers. For example, you might try to predict how long of a delay in minutes a flight will experience or the currency value of a particular stock in the stock market. 
+You also have _numeric prediction_. Instead of trying to predict a class from a fixed set of options, numeric prediction tries to predict a numeric value from a continuous range of numbers. For example, you might try to predict how long of a delay in minutes a flight will experience or the currency value of a particular stock in the stock market. 
 
 Prediction on the Microsoft Data Platform
 ----------------------------------------------
 The Microsoft Data Platform provide numerous ways you can build predictive models that you can then integrate into your application. The following diagram summarizes the options:
 
+![Alternatives to train and use a model](imgs/UseModelForPrediction.png "Model Train and use")
 
 As you can infer from the diagram, the act of incorporating predictive analytics into your applications involves two major phases: model creation and model operationalization. Conceptually, these are very simple to understand. 
 
