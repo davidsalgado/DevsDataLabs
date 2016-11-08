@@ -46,3 +46,6 @@ The Microsoft Data Platform also provide multiple ways of adding predictive anal
 *   **Invoke a Predictive Store Procedure:** When using SQL R Services, you can package the code that invokes prediction using your model within a stored procedure. Therefore, integrating a prediction into your application becomes a matter of executing a stored a procedure in SQL Server—something that most applications can easily accomplish regardless of whether they are written in .NET, node.js, Java...
 
 While each approach has its merits, in the accompanying lab, we’ll examine how to augment a node.js application with predictive analytics using this last approach that invokes a predictive stored procedure running in SQL Server 2016. 
+
+**Done with the intro?**
+[Start the lab] /scripts/readme.md
