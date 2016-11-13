@@ -1,11 +1,17 @@
+use taxidata
+go
+
 CREATE PROCEDURE [dbo].[TrainTipPredictionModel]  
 AS  
 BEGIN  
   DECLARE @inquery nvarchar(max) = N'  
     select tipped,  passenger_count, trip_time_in_secs, trip_distance, direct_distance   
-    from nyctaxi_features  
-    tablesample (70 percent) repeatable (98052)  
+    from nyctaxi_features   
 '  
+
+  --delete previous stored models
+    truncate table dbo.nyc_taxi_models
+
   -- Insert the trained model into a database table  
   INSERT INTO nyc_taxi_models  
   EXEC sp_execute_external_script
