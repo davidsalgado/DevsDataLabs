@@ -10,10 +10,7 @@ Requirements
 * [Visual Studio Code](http://code.visualstudio.com)
 * Node.js 
 
-A tool to run SQL scripts against your SQL Server database, such as either of the following:
-SQL Server Management Studio 
-MSSQL extension for VS Code 
-
+A tool to run SQL scripts against your SQL Server database, such as [SQL Server Management Studio (SSMS)](https://msdn.microsoft.com/library/mt238290.aspx) 
 This lab assumes you have setup SQL Server 2016 Developer Edition locally on your workstation or a remote instance.
 
 Required SQL Server Configuration
@@ -30,13 +27,14 @@ Clone this repo to have the sample application and setup scripts.
 ### Setup the sample database
 
 The following steps will get your taxidata database setup and loaded with data.
-1.Using the SQL tool of your choice (SQL Server Management Studio, Visual Studio Code with the MSSQL extension), connect to your database and execute the following scripts (provided with the project files) to create the database, a table to hold the taxi data, and load the 1.7M records into the taxi trip data table. 
+
+1. Using the SQL tool of your choice (SQL Server Management Studio, Visual Studio Code with the MSSQL extension), connect to your database and execute the following scripts (provided with the project files) to create the database, a table to hold the taxi data, and load the 1.7M records into the taxi trip data table. 
     - *CreateDatabase.sql* 
     - *Create nyctaxi_features Table.sql* 
     - *Load nyctaxi_features using BCP.sql* 
-2.Next, create a table valued function that will package inputs received by the stored procedure into a tabular format by executing the following script. You will use this function later within the stored procedure that makes predictions.
+2. Next, create a table valued function that will package inputs received by the stored procedure into a tabular format by executing the following script. You will use this function later within the stored procedure that makes predictions.
     - *Create Function fnEngineerFeatures.sql* 
-3.Execute the following script to create a table that will persist the predictive model you will generate. Observe that this table has a schema that consists of one column of type varbinary(max). This column will hold the serialized representation of your model.
+3. Execute the following script to create a table that will persist the predictive model you will generate. Observe that this table has a schema that consists of one column of type varbinary(max). This column will hold the serialized representation of your model.
     - *Create nyc_taxi_models Table.sql* 
 
 ### Train the Model
