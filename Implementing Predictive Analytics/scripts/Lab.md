@@ -25,8 +25,7 @@ Required SQL Server Configuration
 
 Download the Project
 ----------------------
-Download the sample application and setup scripts from:
-http://bit.ly/2exRcSV 
+Clone the [sample application and setup scripts](scripts/)
   
 ### Setup the sample database
 
