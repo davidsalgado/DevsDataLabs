@@ -31,18 +31,19 @@ The following steps will get your taxidata database setup and loaded with data.
 1. Using the SQL tool of your choice (SQL Server Management Studio, Visual Studio Code with the MSSQL extension), connect to your database and execute the following scripts (provided with the project files) to create the database, a table to hold the taxi data, and load the 1.7M records into the taxi trip data table. 
     - *CreateDatabase.sql* 
     - *Create nyctaxi_features Table.sql* 
-    - *Load nyctaxi_features using BCP.sql* 
+    - *Load nyctaxi_features using BCP.sql* **Important**, make sure that you edit the script to point to the folder where you've cloned the .bcp file
 2. Next, create a table valued function that will package inputs received by the stored procedure into a tabular format by executing the following script. You will use this function later within the stored procedure that makes predictions.
     - *Create Function fnEngineerFeatures.sql* 
 3. Execute the following script to create a table that will persist the predictive model you will generate. Observe that this table has a schema that consists of one column of type varbinary(max). This column will hold the serialized representation of your model.
     - *Create nyc_taxi_models Table.sql* 
 
 ### Train the Model
-To train your model, you will create a stored procedure that you can run at any time to train your model and store its serialized form in the nyctaxi_features table. 
-1.Execute the following script to define the stored procedure: 
+To train your model, you will create a stored procedure that you can run at any time to train your model and store its serialized form in the nyctaxi_features table.
+
+1. Execute the following script to define the stored procedure: 
     - *Create Procedure TrainTipPredictionModel.sql* 
-2.Execute the following script to train the model and store it. 
-    - *Exec TrainTipPredictionModel.sql* 
+2. Execute the following script to train the model and store it. 
+    - *Exec TrainTipPredictionModel.sql*. You may need to [configure external scripts](https://msdn.microsoft.com/en-us/library/mt590884.aspx) and restart SQL.
 
 Let’s take a closer look at the contents of the stored procedure.
 
@@ -116,7 +117,8 @@ After that, we serialize the model into a data.frame and store it in the trained
 
 ### Operationalize the Model 
 With trained model in hand, you are ready operationalize the model and make it available to your application. 
-1.	Execute the following script to operationalize the model in a stored procedure. 
+
+1. Execute the following script to operationalize the model in a stored procedure. 
     - *Create Procedure PredictTip.sql* 
 
 Let’s take a closer look at this stored procedure.
@@ -243,27 +245,35 @@ This schematizes the result set returned in OutputDataSet within the R script. T
 
 ### Execute a prediction in T-SQL
 Now you are ready to give your predictive stored procedure a test run.
-1.	Run the following script to predict the probability of a tip using the PredictTip stored procedure.
+
+1. Run the following script to predict the probability of a tip using the PredictTip stored procedure.
     - *Exec PredictTip.sql* 
-2.	You should get a result set consisting of one row and one column (labeled Score), for example:
+2. You should get a result set consisting of one row and one column (labeled Score), for example:
  
 
 
 ### Execute the sample in Node.js
 Now let’s integrate a call to this stored procedure from our node.js sample application.
-1.	Within the root of the project directory, at the command line execute: 
+
+1. Within the root of the project directory, at the command line execute: 
+
+```
 npm install tedious 
-2.	This will install the tedious package which we use to connect to SQL Server.
-3.	Open TipPredictor.js in Visual Studio Code.
-4.	Near the top, modify the values of the config element so that they contain the appropriate values to connect to your instance of the taxidata database.
+```
+
+2. This will install the tedious package which we use to connect to SQL Server.
+
+3. Open TipPredictor.js in Visual Studio Code.
+
+4. Near the top, modify the values of the config element so that they contain the appropriate values to connect to your instance of the taxidata database.
 
 Provide the connection details appropriate to your environment (Change the user/pass and instanceName to match your environment)
 
 ```
 var config = {
-userName: 'zoinertejada',
-password: 'Abc!1234',
-server: 'DESKTOP6',
+userName: 'youruser',
+password: 'yourpass',
+server: 'localhost',
 options: {
 database: 'taxidata',
 instanceName: 'SQL2016DEVED',
@@ -272,8 +282,8 @@ encrypt: true
 };
 ```
 
-5.	Save the file.
-6.	Scroll down to the connect.on() callback implementation.
+5. Save the file.
+6. Scroll down to the connect.on() callback implementation.
 
 ```
 connection.on('connect', function(err) {
@@ -325,10 +335,15 @@ function executeStatement() {
 }
 ```
 
-9.	Observe that this method builds up a Request object that takes the stored procedure name and contains the input parameters upon which the prediction will execute. The return value of the stored procedure is handled via the request.on(‘row’) callback. The stored procedure is actually invoked at the last statement, via connection.callProcedure(request).
-10.	Open an instance of the command line and navigate to the directory containing TipPredictor.js.
-11.	Run the sample application by typing:
+9. Observe that this method builds up a Request object that takes the stored procedure name and contains the input parameters upon which the prediction will execute. The return value of the stored procedure is handled via the *request.on(‘row’)* callback. The stored procedure is actually invoked at the last statement, via *connection.callProcedure(request)*.
+
+10. Open an instance of the command line and navigate to the directory containing TipPredictor.js.
+
+11. Run the sample application by typing:
+
+```
 node TipPredictor.js 
+```
 
 12.	You should see output like the following (which in this case means there is a 53% chance of a tip):
 
