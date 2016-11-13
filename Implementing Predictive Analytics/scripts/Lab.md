@@ -54,8 +54,9 @@ BEGIN
   DECLARE @inquery nvarchar(max) = N'  
     select tipped,  passenger_count, trip_time_in_secs, trip_distance, direct_distance   
     from nyctaxi_features  
-    tablesample (70 percent) repeatable (98052)  
 '  
+  -- Before insterting a new model, we delete the previous one 
+    truncate table dbo.nyc_taxi_models
 
   -- Insert the trained model into a database table  
   INSERT INTO nyc_taxi_models  
@@ -77,12 +78,11 @@ BEGIN
 END  
 GO  
 ```
-The procedure begins by defining a query that retrieves a sample of the data contained in the nyctaxi_features table. 
+The procedure begins by defining a query that retrieves the sample data contained in the nyctaxi_features table. 
 ```
   DECLARE @inquery nvarchar(max) = N'  
     select tipped,  passenger_count, trip_time_in_secs, trip_distance, direct_distance   
     from nyctaxi_features  
-    tablesample (70 percent) repeatable (98052)  
 '  
 ``` 
 This query is passed as one of the parameters to sp_execute_external_script, via the @input_data_1 parameter. 
