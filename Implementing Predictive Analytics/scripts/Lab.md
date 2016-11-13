@@ -63,11 +63,11 @@ BEGIN
     @language = N'R',  
     @script = N'  
 
-	-- Create model  
+	##Create model  
 	logitObj <- rxLogit(tipped ~ passenger_count + trip_distance + trip_time_in_secs +
                            direct_distance, data = InputDataSet)  
 
-	-- Serialize model and put it in data frame  
+	##Serialize model and put it in data frame  
 	trained_model <- data.frame(model=as.raw(serialize(logitObj, NULL)));  
 									',  
    @input_data_1 = @inquery,  
@@ -95,25 +95,23 @@ Next, a call to sp_execute_external_script is constructed. The return value of t
 
 Looking at the R script specifically, we have:
 
-### Create model  
 ```
+##Create model  
 logitObj <- rxLogit(tipped ~ passenger_count + trip_distance + trip_time_in_secs + 
                     direct_distance, data = InputDataSet)  
-```
-### Serialize model and put it in data frame  
-```
+##Serialize model and put it in data frame  
 trained_model <- data.frame(model=as.raw(serialize(logitObj, NULL)));  
 ```
 
-The second line trains the model using the rxLogit method, which performs a logistic regression. Observe that the inputs are expressed in a formula syntax that describes what feature to predict and what features to use in its prediction:
+The second line trains the model using the **rxLogit** method, which performs a **logistic regression**. Observe that the inputs are expressed in a formula syntax that describes what feature to predict and what features to use in its prediction:
 
 ```
 tipped ~ passenger_count + trip_distance + trip_time_in_secs + direct_distance
 ```
 
-The formula reads as such:  predict “tipped” given the “passenger_count”, “trip_distance”, “trip_time_in_secs” and “direct_distance”. The source of these features comes from the data set made available via the InputDataSet variable.
+The formula reads as such:  predict **tipped** given the *passenger_count*, *trip_distance*, *trip_time_in_secs* and *direct_distance*. The source of these features comes from the data set made available via the InputDataSet variable.
 
-After that, we serialize the model into a data.frame and store it in the trained_model variable, which is returned as an output result set consisting of one cell with the column name “trained_model” and value of the serialized model. 
+After that, we serialize the model into a **data.frame** and store it in the *trained_model* variable, which is returned as an output result set consisting of one cell with the column name *trained_model* and value of the serialized model. 
 
 ### Operationalize the Model 
 With trained model in hand, you are ready operationalize the model and make it available to your application. 
