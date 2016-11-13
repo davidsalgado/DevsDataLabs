@@ -231,7 +231,7 @@ OutputDataSet<-rxPredict(modelObject = mod, data = InputDataSet,
 
 ```
 
-The first line deserializes the model so it is in a form useable by the rxPredict method. The second line invokes rxPredict which uses the model against the supplied row of data (within InputDataSet, which is sourced from the query in @inquery). 
+The first line deserializes the model so it is in a form useable by the **rxPredict** method. The second line invokes rxPredict which uses the model against the supplied row of data (within InputDataSet, which is sourced from the query in @inquery). 
 
 Finally, the script ends using the following line:
 
