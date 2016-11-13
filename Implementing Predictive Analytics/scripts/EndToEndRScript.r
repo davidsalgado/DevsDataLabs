@@ -11,10 +11,13 @@ dbhandle <- odbcDriverConnect('driver={SQL Server};server=<yourservername>;datab
 res <- sqlQuery(dbhandle, 'select tipped,  passenger_count, trip_time_in_secs, trip_distance, direct_distance   from nyctaxi_features  tablesample (70 percent) repeatable (98052)')
 
 ##Create the model... 
-logitObj <- rxLogit(tipped ~ passenger_count + trip_distance + trip_time_in_secs + direct_distance, data = res)
+model <- rpart(tipped ~ passenger_count + trip_time_in_secs + trip_distance + direct_distance, res)
+summary(model)
 
 ##Now, let's create the frame with the parameters for the prediction
-prediction_parameters <- data.frame(passenger_count = c(1), trip_distance = c(2.5), trip_time_in_secs = c(631), direct_distance = c(2))
+prediction_parameters <- data.frame(passenger_count = 1, trip_time_in_secs = 631, trip_distance = 2.5, direct_distance = 2)
 
 ##predict
-OutputDataSet<-rxPredict(modelObject = logitObj, data = prediction_parameters, outData = NULL, predVarNames = "Score", type = "response", writeModelVars = FALSE, overwrite = TRUE);
+p <- predict(model, prediction_parameters)
+OutputDataFrame <- data.frame(p)
+OutputDataFrame
