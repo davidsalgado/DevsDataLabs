@@ -4,12 +4,11 @@ var TYPES = require('tedious').TYPES;
 
 // Provide the connection details appropriate to your environment
 var config = {
-    userName: 'zoinertejada',
-    password: 'Abc!1234567890',
-    server: 'DESKTOP-ORFJ0P6',
+    userName: '<youruser>',
+    password: '<yourpass>',
+    server: '<yourserver>',
     options: {
         database: 'taxidata',
-        instanceName: 'SQL2016DEVED',
         encrypt: true
     }
 };
