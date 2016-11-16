@@ -1,0 +1,1 @@
+C:\Users\davidsb\Documents\GitHub\DevsDataLabs\HelloDataLakeWord\scripts\HelloDataLakeClient\bin\Debug\SampleADLClient.exe.config
