@@ -32,9 +32,11 @@ Clone this repo on to your local machine. Make sure that you remember the path w
 
 You should see a textual representation of the results the looks like the following:
 
- 
+![Fig1.TextRepresentation of results](imgs/Fig1.png) 
 
 Graphically, you can interpret the results this way:
+
+![Fig2.Graphical interpretation](imgs/Fig2.png)
  
 
 In summary, the tree that was generated predicts a tip when the trip distance is 1.25 miles or longer (the value 0.5675874 is closer to 1.0 which we interpret as tip). Trips shorter than 1.25 miles do not receive a tip (0.4473193 is closer to 0 which interpret as no tip). 
