@@ -60,8 +60,8 @@ In summary, the tree that was generated predicts a tip when the trip distance is
 
 ## done?
 You can explore other R and predictive analytics labs like:
-* [this one](http://www.medium.com/@davidsb) where you will learn how to predict the number of customers that will visit a ski resort on a given date
-*  or [this one](https://github.com/davidsalgado/DevsDataLabs/tree/master/Implementing%20Predictive%20Analytics) about predicting if a cab driver will be tipped or not.
+* [this one](https://github.com/davidsalgado/DevsDataLabs/blob/master/Implementing%20Predictive%20Analytics/scripts/Lab.md) that explains this same Cab scenario in greated detail
+* [this one](https://medium.com/@davidsb/datascience-for-developers-build-your-first-predictive-model-with-r-a798f684752f) where you will learn how to predict the number of customers that will visit a ski resort on a given date
 
 Please feel free to open issues on the repo or PR to include more labs that have been useful for you
 
