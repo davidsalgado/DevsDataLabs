@@ -423,9 +423,9 @@ Where
 By its nature, JSON documents do not have any defined schema so by accepting JSON the might be some concern about the quality of the documents coming in. One place where this should be happening is at the application layer, but it never hurts to have some protection at the database level as well.  
 The most important validation we want to make is to at least ensure that we are receiving properly formatted JSON. Not having properly formatted JSON can cause a number of unexpected and inconsistent results and errors when we try to query or pull that JSON back from the column. The second layer on constraint we may want to apply is to ensure that certain fields exist in the document. We can achieve both of these by building some CHECK CONSTRAINTS 
 
-'''
+``` 
 -- We can use the ISJSON function to return a True/False for whether 
- -- the text data is valid formatted JSON. 
+-- the text data is valid formatted JSON. 
  
  ALTER TABLE dbo.ExpenseTransaction 
  ADD CONSTRAINT [Payee Info should be a valid JSON Document] 
@@ -455,4 +455,6 @@ VALUES
  -- Note that the PayeeName Property is spelled incorrectly and this will not be found. 
  '{"Payee_Name":"A Burger Place","PayeeCity":"Orlando","PayeeState":"FL"}' 
  ) 
-'''
+```
+
+... and done! We hope that you've enjoyed this intro to JSON on SQL Server. If you want to learn more about other SQL Server features for developers check [http://aka.ms/sqldev](http://aka.ms/sqldev) :)
