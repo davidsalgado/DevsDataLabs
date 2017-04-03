@@ -1,6 +1,16 @@
 # Lab: JSON DB Support 
 So you are ready to check out the new JSON support for yourself? This lab guide will walk you through the accompanying script. There are no requirements to run these scripts other than having a SQL instance with support for JSON. We will go through a lifecycle of building some database objects with JSON to support our application development efforts. Along the way we will demonstrate some of the powerful functions that support JSON in SQL Server. 
 
+## Requirements
+You'd need to use SQL Server 2016 or higher, let me share few options below
+* Docker images
+  - [Linux](https://hub.docker.com/r/microsoft/mssql-server-linux/)
+  - [Windows](https://hub.docker.com/r/microsoft/mssql-server-windows/) 
+  
+* Native packages 
+  - Free SQL Server 2016 Developer edition [installer for Windows](http://go.microsoft.com/fwlink/?LinkID=799009)
+  - Free SQL Server vNext CTPs [for Linux](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup)
+    
 ## Example Use Cases 
 We will go through a few example use case in this lab to demonstrate the power and flexibility of JSON support within SQL Server. 
 
@@ -327,7 +337,8 @@ CROSS APPLY 
  -- This will be a common pattern we can use to deal with more complex documents. 
  OPENJSON(@json_trans) 
  WITH (TransactionID int) as ord 
-``` 
+ ``` 
+
 Now we can look at our results 
 
 
