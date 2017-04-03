@@ -318,7 +318,8 @@ Here are the results from our query:
 In the query we noted some of the key takeaways from this query.  But, just as in our basic example above we can now do anything with this dataset that we could with a regular table. 
  
 Now let’s take a look at our OPENJSON query to get the Addresses 
-``` 
+
+''' 
 Select ord.TransactionID, addr.*  
 From  
  -- We want to get the array of addresses so are path pulls the value  
@@ -337,7 +338,7 @@ CROSS APPLY 
  -- This will be a common pattern we can use to deal with more complex documents. 
  OPENJSON(@json_trans) 
  WITH (TransactionID int) as ord 
- ``` 
+ '''
 
 Now we can look at our results 
 
@@ -350,6 +351,7 @@ There are many benefits to storing our data in relational tables, but we often h
 Using FOR XML AUTO 
 In this first example we need to provide an export of our User Settings table to other systems so they can provide access to those users to the various systems. We may need to do this because 
 we have systems that are not completely integrated so user profiles need to be synced. This example is using the AUTO option of the FOR JSON clause. The AUTO option is great when you want simple documents with elements all at the root element. 
+
 ```
 Select  
   UserId, 
@@ -364,6 +366,7 @@ Select 
 Some other attributes of the query to point out is that we are using the optional ROOT clause which allows us to specify a named root node. Also, since our UserSettings column contains JSON data, we need to surround it with JSON_QUERY to ensure that SQL Server sees this as JSON text. Lastly, note that the names for the properties in the document are driven by the name of the column returned. 
 ### Using FOR XML PATH 
 Since we need to interface and send data to multiple systems, we can use FOR JSON to provide all types of formats of JSON documents. By using the PATH option in the FOR JSON clause we have control to create documents with more complex structures than the AUTO option give us. The PATH option will inspect the column names and build nested properties based the “.” notation in the column names. 
+
 ```
 Select 
  ot.TransactionID, 
@@ -386,6 +389,7 @@ Left Outer Join dbo.OrderAddress oab
 FOR JSON PATH 
 ```
 Using FOR XML gives you the power and flexibility to generate a variety of JSON documents from any data in your database 
+
 ## Step 8: Indexing 
 We all know and love indexes and know how much they can positively impact our performance when properly applied. JSON documents cannot be directly indexed, however, we can use computed columns to make columns in our JSON document available for indexes. 
 For example, we want to be able to query our expense table by some of the columns that are stored in the PayeeInfo column, namely the State.  So we will create a computed column and then create an index based on that column. We could include any other columns in the index or include columns for performance  
